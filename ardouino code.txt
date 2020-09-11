@@ -1,0 +1,97 @@
+int bf =0;
+int BUTTONstate =0;
+int ledPin = 13;                // choose the pin for the LED
+int inputPin = 2;               // choose the input pin (for PIR sensor)
+int pirState = LOW;             // we start, assuming no motion detected
+int val = 0;                    // variable for reading the pin status
+String a ="xx";
+// the setup function runs once when you press reset or power the board
+void setup() {
+  pinMode(9, INPUT);
+  pinMode(10, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(11, OUTPUT);
+
+   pinMode(ledPin, OUTPUT);      // declare LED as output
+  pinMode(inputPin, INPUT);     // declare sensor as input
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  Serial.begin(19200);
+  //Serial.setTimeout(5);
+}
+
+// the loop function runs over and over again forever
+void loop() {
+  
+  int analogValue = analogRead(A0);
+a="xx";
+while(Serial.available()){
+  a = Serial.readStringUntil('\n');
+  Serial.println(a); 
+   if(  a == "tt" ){
+  digitalWrite(3, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(2000); // wait for a second
+  digitalWrite(3, LOW); 
+  a="xx";
+  }
+  else if (a == "ff"){
+    digitalWrite(4, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(2000); // wait for a second
+  digitalWrite(4, LOW);
+  a="xx";
+ 
+    }}
+    val = digitalRead(inputPin);  // read input value
+  if (val == HIGH) {            // check if the input is HIGH
+    digitalWrite(ledPin, HIGH);  // turn LED ON
+    if (pirState == LOW) {
+      // we have just turned on
+      Serial.println("Motion1");
+      
+      // We only want to print on the output change, not state
+      pirState = HIGH;
+    }
+  } else {
+    digitalWrite(ledPin, LOW); // turn LED OFF
+    if (pirState == HIGH){
+      // we have just turned of
+      Serial.println("Motion0");
+      // We only want to print on the output change, not state
+      pirState = LOW;
+    }
+  }
+  
+  BUTTONstate = digitalRead(9);
+  if (BUTTONstate == 1)
+  {  Serial.println("lon");
+     delay(222);
+    if(bf==0){
+      bf=1;//Serial.println("hi2");
+      }
+     else{bf=0;// Serial.println("hi3");
+     }
+  } 
+ 
+ 
+ 
+  if(bf == 1){
+  if (analogValue >150){
+  digitalWrite(12, HIGH); 
+  digitalWrite(11, LOW);
+  digitalWrite(10, LOW);
+  }else if(analogValue > 100){
+  digitalWrite(12, HIGH); 
+  digitalWrite(11, HIGH);
+  digitalWrite(10, LOW);
+  }else{
+  digitalWrite(12, HIGH); 
+  digitalWrite(11, HIGH);
+  digitalWrite(10, HIGH);
+    
+    }}else{
+      
+      digitalWrite(12, LOW); 
+  digitalWrite(11, LOW);
+  digitalWrite(10, LOW);
+      }
+}
